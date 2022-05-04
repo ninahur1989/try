@@ -4,39 +4,9 @@
     using System.Text.RegularExpressions;
     internal static class Program
     {
-        public enum Translator
-        {
-            A = 1,
-            B = 2,
-            C = 3,
-            D = 4,
-            E = 5,
-            F = 6,
-            G = 7,
-            H = 8,
-            I = 9,
-            J = 10,
-            K = 11,
-            L = 12,
-            M = 13,
-            N = 14,
-            O = 15,
-            P = 16,
-            Q = 17,
-            R = 18,
-            S = 19,
-            T = 20,
-            U = 21,
-            V = 22,
-            W = 23,
-            X = 24,
-            Y = 25,
-            Z = 26,
-        }
-
         public static void Main(string[] args)
         {
-            Console.WriteLine("write amount of N: ");
+            Console.WriteLine("Wrire an amout of N: ");
             int n = int.Parse(Console.ReadLine());
             Random random = new Random();
             int[] starter = new int[n];
@@ -45,6 +15,7 @@
             int[] unpaired = new int[n];
             int k = 0;
             int[] upper = new int[6] { 1, 4, 5, 8, 9, 10 };
+
             for (int i = 0; i < n; i++)
             {
                 starter[i] = random.Next(1, 27);
@@ -60,42 +31,39 @@
                 }
             }
 
-            Array.Resize(ref paired, j);
-            Array.Resize(ref unpaired, k);
-            Cheker(paired);
-            Console.WriteLine();
-            Cheker(unpaired);
-            Console.WriteLine();
-            Compare(paired.Length, unpaired.Length);
+            Compare(j, k);
+            Output(paired);
+            Output(unpaired);
 
-            void Cheker(int[] array)
+            void Output(int[] array)
             {
                 for (int i = 0; i < array.Length; i++)
                 {
-                    bool result = false;
-                    for (int j = 0; j < upper.Length; j++)
+                    bool check = true;
+                    for (int k = 0; k < upper.Length; k++)
                     {
-                        if (upper[j] == array[i])
+                        if (upper[k] == array[i])
                         {
-                            Console.Write((Translator)array[i] + " ");
-                            result = true;
+                            check = false;
+                            Console.Write(char.ToUpper(Number2String(array[i], false)) + " ");
                             break;
                         }
                     }
 
-                    if (result)
+                    if (check)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        Console.Write(ToLower((Translator)array[i]) + ' ');
+                        Console.Write(Number2String(array[i], false) + " ");
                     }
                 }
+
+                Console.WriteLine();
             }
 
             void Compare(int a, int b)
             {
+                Array.Resize(ref paired, j);
+                Array.Resize(ref unpaired, k);
+
                 if (a > b)
                 {
                     Console.WriteLine(a + " больше чем " + b);
@@ -112,11 +80,12 @@
                     Console.WriteLine("их поровну");
                 }
             }
-        }
 
-        public static string ToLower(this object obj)
-        {
-            return obj.ToString().ToLower();
+            char Number2String(int number, bool isCaps)
+            {
+                char c = (char)(isCaps ? 65 : 97 + (number - 1));
+                return c;
+            }
         }
     }
 }
